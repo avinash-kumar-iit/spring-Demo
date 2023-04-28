@@ -1,17 +1,19 @@
 @Library('sharedlibs') _
 
+ 
 pipeline {
     agent any
-	
-	environment {
-	   PATH = "C:/Program Files/Java/jdk-11.0.1/bin:$PATH"
-	}
-  
+    tools {
+        maven "maven"
+        jdk 'jdk-11.0.16.8-hotspot'
+    }
+     
     stages {
-	
+        
+      
 	  stage('git clone') {
             steps {
-                 git branch: 'main', url: 'https://github.com/avinash-kumar-iit/hazelcast.git'
+                 git branch: 'main', url: 'https://github.com/avinash-kumar-iit/spring-Demo.git'
             }
         }
        
@@ -19,7 +21,7 @@ pipeline {
             steps {
                 welcome("Avinash Kumar")
 				script{
-				log.info("sharedlibs is working now...")
+				log.info("shared lib is working....")
 			    log.warning("need to upgrade further...")
 				}
             }
@@ -28,13 +30,14 @@ pipeline {
 
         stage ('Build') {
             steps {
-                sh "mvn clean install" 
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
-        }
+                
+               
+                bat 'mvn clean package'
+         }
+        
+   
+               
     }
-}
+            }
+           
+        }
